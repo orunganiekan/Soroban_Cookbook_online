@@ -233,6 +233,7 @@ Proper error handling is critical for security:
 
 ## Related Topics
 
+- [Error Handling Pattern](/docs/patterns/error-handling) - Error taxonomy and user-facing clarity
 - [Error Recovery Pattern](/docs/patterns/error-recovery) - Comprehensive error handling examples
 - [Storage](/docs/concepts/storage) - Understanding storage for rollback behavior
 - [Authorization](/docs/concepts/authorization) - Auth-related error handling

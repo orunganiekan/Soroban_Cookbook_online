@@ -22,6 +22,12 @@ Browse battle-tested contract patterns for various use cases.
 
 Minimal Soroban contract demonstrating instance storage. Perfect starting point for understanding contract structure and basic storage operations.
 
+### [Error Handling](/docs/patterns/error-handling)
+
+**Difficulty**: Intermediate | **Category**: Architecture | **Status**: Stable
+
+Error taxonomy, custom error patterns, error propagation strategies, and user-facing clarity recommendations for robust contract behavior.
+
 ### [Error Recovery](/docs/patterns/error-recovery)
 
 **Difficulty**: Intermediate | **Category**: Error Handling | **Status**: Stable
