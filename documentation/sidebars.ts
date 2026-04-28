@@ -27,6 +27,7 @@ const sidebars: SidebarsConfig = {
         'concepts/storage',
         'concepts/authorization',
         'concepts/events',
+        'concepts/gas-and-resources',
       ],
     },
     {
