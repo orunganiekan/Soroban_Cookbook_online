@@ -183,10 +183,34 @@ jobs:
           fi
           echo "✅ Workflow syntax validated"
 
+  test-examples:
+    name: Test Code Examples
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo registry
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            examples/target
+          key: cargo-examples-${{ hashFiles('examples/**/Cargo.toml') }}
+          restore-keys: |
+            cargo-examples-
+
+      - name: Run example tests
+        run: bash scripts/test-examples.sh
+
   summary:
     name: CI Summary
     runs-on: ubuntu-latest
-    needs: [lint-format, typecheck, build-docs, validate-deployment]
+    needs: [lint-format, typecheck, build-docs, validate-deployment, test-examples]
     if: always()
     steps:
       - name: Check job statuses
@@ -205,6 +229,10 @@ jobs:
           fi
           if [ "${{ needs.validate-deployment.result }}" != "success" ]; then
             echo "❌ Deployment validation failed"
+            exit 1
+          fi
+          if [ "${{ needs.test-examples.result }}" != "success" ]; then
+            echo "❌ Code example tests failed"
             exit 1
           fi
           echo "✅ All CI checks passed"

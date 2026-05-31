@@ -17,6 +17,7 @@ const sidebars: SidebarsConfig = {
         'getting-started/deploy-testnet',
         'getting-started/contract-interaction',
         'contributing',
+        'contributing/add-tested-example',
       ],
     },
     {
