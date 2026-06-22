@@ -2,6 +2,7 @@ import Link from '@docusaurus/Link';
 import Layout from '@theme/Layout';
 import React from 'react';
 import styles from './404.module.css';
+import OptimizedImage from '@site/src/components/OptimizedImage';
 
 const recoveryLinks = [
   {
@@ -33,10 +34,12 @@ export default function NotFound() {
         <div className={styles.glowTwo} aria-hidden="true" />
         <div className={styles.container}>
           <h1 className={styles.title}>Page Not Found</h1>
-          <img
+          <OptimizedImage
             src="/img/404.png"
             alt="A confused person flipping through a cookbook unable to find the page"
             className={styles.illustration}
+            width={300}
+            height={300}
           />
           <p className={styles.subtitle}>
             This page doesn&apos;t exist in the cookbook — yet. It may have moved, <br />

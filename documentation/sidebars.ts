@@ -14,8 +14,12 @@ const sidebars: SidebarsConfig = {
         'getting-started/setup-linux',
         'getting-started/setup-windows',
         'getting-started/first-contract',
+        'getting-started/building-and-compilation',
         'getting-started/deploy-testnet',
+        'getting-started/deploy-mainnet',
+        'getting-started/contract-interaction',
         'contributing',
+        'contributing/add-tested-example',
       ],
     },
     {
@@ -24,9 +28,12 @@ const sidebars: SidebarsConfig = {
       items: [
         'concepts/introduction',
         'concepts/overview',
+        'concepts/best-practices',
         'concepts/storage',
         'concepts/authorization',
         'concepts/events',
+        'concepts/gas-and-resources',
+        'concepts/cross-contract-invocation',
       ],
     },
     {
@@ -35,6 +42,10 @@ const sidebars: SidebarsConfig = {
       items: [
         'patterns/overview',
         'patterns/hello-world',
+        'patterns/custom-types',
+        'patterns/authorization',
+        'patterns/optimization-playbook',
+        'patterns/lifecycle-upgrades',
       ],
     },
     {

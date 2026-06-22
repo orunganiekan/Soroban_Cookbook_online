@@ -104,7 +104,8 @@ export default function PatternPreview({
               <button
                 className={clsx(styles.toggleBtn, viewMode === 'carousel' && styles.active)}
                 onClick={() => setViewMode('carousel')}
-                aria-label="Carousel view">
+                aria-label="Carousel view"
+                aria-pressed={viewMode === 'carousel'}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M7 19h10V5H7v14zm0-16c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H7z" />
                 </svg>
@@ -112,7 +113,8 @@ export default function PatternPreview({
               <button
                 className={clsx(styles.toggleBtn, viewMode === 'grid' && styles.active)}
                 onClick={() => setViewMode('grid')}
-                aria-label="Grid view">
+                aria-label="Grid view"
+                aria-pressed={viewMode === 'grid'}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z" />
                 </svg>
@@ -128,7 +130,8 @@ export default function PatternPreview({
               <button
                 key={category}
                 className={clsx(styles.categoryBtn, selectedCategory === category && styles.active)}
-                onClick={() => setSelectedCategory(category)}>
+                onClick={() => setSelectedCategory(category)}
+                aria-pressed={selectedCategory === category}>
                 {category === 'all'
                   ? 'All Patterns'
                   : category.charAt(0).toUpperCase() + category.slice(1)}

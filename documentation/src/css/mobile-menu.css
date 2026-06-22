@@ -1,0 +1,129 @@
+/**
+ * Mobile Menu Polish — Issue #40
+ * --------------------------------
+ * Smooth open/close transitions, backdrop overlay, touch-friendly
+ * tap targets, and reduced-motion fallback for the Docusaurus
+ * Infima navbar sidebar (shown below the lg breakpoint: 996px).
+ *
+ * Infima classes used:
+ *   .navbar__toggle          — hamburger button
+ *   .navbar-sidebar          — the slide-in panel
+ *   .navbar-sidebar--show    — added by Docusaurus when open
+ *   .navbar-sidebar__backdrop — the dimming overlay
+ *   .navbar-sidebar__item    — each nav link row
+ *   .navbar__item            — top-level nav links
+ */
+
+/* ── Only apply below the desktop breakpoint ─────────────────────────────── */
+@media (max-width: 996px) {
+
+  /* ── 1. Hamburger toggle — minimum 44 × 44 px touch target ─────────────── */
+  .navbar__toggle {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: var(--radius-md, 8px);
+    transition:
+      background-color var(--sb-motion-duration-fast, 120ms) var(--sb-motion-ease-standard, ease),
+      color var(--sb-motion-duration-fast, 120ms) var(--sb-motion-ease-standard, ease);
+  }
+
+  .navbar__toggle:hover {
+    background-color: var(--ifm-menu-color-background-hover);
+  }
+
+  /* ── 2. Sidebar panel — slide in from the left ──────────────────────────── */
+  .navbar-sidebar {
+    transform: translateX(-100%);
+    transition:
+      transform var(--sb-motion-duration-slow, 320ms) var(--sb-motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
+      visibility var(--sb-motion-duration-slow, 320ms) step-end;
+    visibility: hidden;
+    will-change: transform;
+    /* Ensure it sits above the backdrop */
+    z-index: var(--z-modal, 500);
+  }
+
+  .navbar-sidebar--show {
+    transform: translateX(0);
+    transition:
+      transform var(--sb-motion-duration-slow, 320ms) var(--sb-motion-ease-out, cubic-bezier(0, 0, 0.2, 1)),
+      visibility var(--sb-motion-duration-slow, 320ms) step-start;
+    visibility: visible;
+  }
+
+  /* ── 3. Backdrop overlay ────────────────────────────────────────────────── */
+  .navbar-sidebar__backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: var(--z-modal-backdrop, 400);
+    opacity: 0;
+    transition: opacity var(--sb-motion-duration-slow, 320ms) var(--sb-motion-ease-out, cubic-bezier(0, 0, 0.2, 1));
+    pointer-events: none;
+  }
+
+  .navbar-sidebar--show ~ .navbar-sidebar__backdrop,
+  .navbar-sidebar--show .navbar-sidebar__backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── 4. Touch targets — nav items ≥ 44 px tall ──────────────────────────── */
+  .navbar-sidebar__item,
+  .menu__link,
+  .navbar__item.navbar__link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    padding-block: 0.625rem;
+  }
+
+  /* Nested category items */
+  .menu__list-item-collapsible {
+    min-height: 44px;
+  }
+
+  .menu__caret {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── 5. Smooth caret rotation on expand/collapse ────────────────────────── */
+  .menu__caret::before {
+    transition: transform var(--sb-motion-duration-fast, 120ms) var(--sb-motion-ease-standard, ease);
+  }
+
+  /* ── 6. Search bar inside sidebar ──────────────────────────────────────── */
+  .navbar-sidebar .navbar__search-input {
+    min-height: 44px;
+  }
+}
+
+/* ── 7. Reduced-motion fallback ─────────────────────────────────────────────
+   The global rule in custom.css already collapses all transitions to 0.01ms,
+   but we also honour the --sb-motion-duration tokens (set to 0ms under
+   prefers-reduced-motion). This block makes the intent explicit for the
+   sidebar specifically.
+   ─────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 996px) and (prefers-reduced-motion: reduce) {
+  .navbar-sidebar {
+    transition: visibility 0s step-end;
+  }
+
+  .navbar-sidebar--show {
+    transition: visibility 0s step-start;
+    /* No slide — just appear instantly */
+    transform: translateX(0);
+  }
+
+  .navbar-sidebar__backdrop {
+    transition: none;
+  }
+}

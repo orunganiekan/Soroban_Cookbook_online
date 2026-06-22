@@ -1,12 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import styles from './PatternDoc.module.css';
+import { Badge, Tag } from '../Badge';
+import type { BadgeDifficulty, BadgeStatus, TagCategory } from '../Badge';
 
 export type PatternMetaProps = {
   slug: string;
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-  category: string;
-  status?: 'draft' | 'stable' | 'experimental';
+  difficulty: BadgeDifficulty;
+  category: TagCategory | string;
+  status?: BadgeStatus;
   lastReviewed?: string;
 };
 
@@ -20,7 +22,8 @@ export function PatternMeta({
   return (
     <div className={styles.metaCard} data-pattern-slug={slug}>
       <div className={styles.metaHeader}>
-        <span className={clsx(styles.badge, styles[`badge${difficulty}`])}>{difficulty}</span>
+        <Badge variant={difficulty} size="md" asStatus />
+        {status && status !== 'stable' && <Badge variant={status} size="sm" />}
       </div>
       <dl className={styles.metaGrid}>
         <div>

@@ -50,7 +50,16 @@ export default function BaseCard({
       tabIndex={onClick ? 0 : undefined}
       aria-label={ariaLabel}
       onClick={onClick}
-      onKeyDown={onClick ? (e) => e.key === 'Enter' && onClick() : undefined}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                if (e.key === ' ') e.preventDefault();
+                onClick();
+              }
+            }
+          : undefined
+      }
       className={clsx(styles.baseCard, isInteractive && styles.interactive, className)}
       style={style}>
       {children}

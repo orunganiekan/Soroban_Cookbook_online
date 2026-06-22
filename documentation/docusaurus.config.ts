@@ -146,8 +146,14 @@ const config: Config = {
         },
         blog: false,
         theme: {
-          customCss: ['./src/css/fonts.css', './src/css/custom.css', './src/css/breakpoints.css', './src/css/design-tokens.css','./src/css/design-tokens.css',
-            './src/css/search-experience.css',]
+          customCss: [
+            './src/css/fonts.css',
+            './src/css/design-tokens.css',
+            './src/css/breakpoints.css',
+            './src/css/badges-tags.css',
+            './src/css/custom.css',
+            './src/css/search-experience.css',
+          ]
         },
       } satisfies Preset.Options,
     ],

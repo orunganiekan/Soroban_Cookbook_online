@@ -1,0 +1,59 @@
+.section {
+  background: var(--ifm-background-color);
+  border: 1px solid var(--ifm-border-color);
+  padding: 2rem;
+  border-radius: 8px;
+  margin: 3rem 0;
+}
+
+.codeBlock {
+  background: var(--ifm-background-surface-color);
+  overflow-x: auto;
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.copyButton {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  background: var(--ifm-color-primary);
+  color: var(--ifm-font-color-base-inverse);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background 0.2s;
+}
+
+.copyButton:hover {
+  background: var(--ifm-color-primary-dark);
+}
+
+.copyButton:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+.copyButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ctaLink {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--ifm-color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.ctaLink:hover {
+  text-decoration: underline;
+}
+
+.ctaLink:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}

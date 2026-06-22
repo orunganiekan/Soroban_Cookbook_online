@@ -7,6 +7,9 @@
  * 2. Component-specific styles should stay in .module.css files.
  */
 
+/* Issue #40: Mobile menu polish */
+@import './mobile-menu.css';
+
 /* ── Light Mode (Default) ───────────────────────────────────────────────────── */
 
 :root {
@@ -62,7 +65,7 @@
   /* Footer */
   --ifm-footer-background-color: #1f2937;
   --ifm-footer-color: #e5e7eb;
-  --ifm-footer-link-color: #9ca3af;
+  --ifm-footer-link-color: #d1d5db;
   --ifm-footer-link-hover-color: #ffffff;
 
   /* Table */

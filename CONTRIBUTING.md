@@ -8,7 +8,7 @@ Thank you for your interest in contributing! To ensure a smooth experience for b
 - **[Getting Started](https://soroban-cookbook.com/docs/contributing#getting-started)** - Project overview and types of contributions.
 - **[Local Setup](https://soroban-cookbook.com/docs/contributing#setup-instructions)** - How to clone, install, and run the project locally.
 - **[PR Conventions](https://soroban-cookbook.com/docs/contributing#branching--pr-conventions)** - Branch naming and commit message standards.
-- **[Validation Checklist](https://soroban-cookbook.com/docs/contributing#pre-pr-checklist)** - What to check before submitting your PR.
+- **[Validation Checklist](https://soroban-cookbook.com/docs/contributing#pre-pr-checklist)** - What to check before submitting your PR, including accessibility (a11y) standards.
 
 ---
 

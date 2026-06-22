@@ -39,10 +39,8 @@
   background: color-mix(in srgb, var(--ifm-background-color) 92%, var(--ifm-color-primary) 8%);
   box-shadow: 0 8px 22px rgba(16, 24, 40, 0.06);
   min-width: 0;
-  transition-property: transform, box-shadow;
-  transition-duration: var(--animation-duration-normal, var(--sb-motion-duration-normal));
-  transition-timing-function: var(--animation-easing-spring, var(--sb-motion-ease-standard));
-  transition: var(--transition-button);
+  transition: transform var(--sb-motion-duration-normal, 200ms) var(--sb-motion-ease-standard, ease),
+              box-shadow var(--sb-motion-duration-normal, 200ms) var(--sb-motion-ease-standard, ease);
 }
 
 .card:hover {
@@ -157,10 +155,8 @@
   background: var(--ifm-background-surface-color);
   padding: var(--space-4, 1rem);
   min-width: 0;
-  transition-property: transform, box-shadow;
-  transition-duration: var(--animation-duration-normal, var(--sb-motion-duration-normal));
-  transition-timing-function: var(--animation-easing-spring, var(--sb-motion-ease-standard));
-  transition: var(--transition-button);
+  transition: transform var(--sb-motion-duration-normal, 200ms) var(--sb-motion-ease-standard, ease),
+              box-shadow var(--sb-motion-duration-normal, 200ms) var(--sb-motion-ease-standard, ease);
 }
 
 .communityLink:hover {
@@ -234,4 +230,11 @@
 [data-theme='dark'] .communityLink {
   border-color: #334155;
   background: #111827;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .communityLink {
+    transition: none;
+  }
 }

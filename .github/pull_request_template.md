@@ -31,6 +31,13 @@ Before submitting, please ensure you've checked these off:
 - [ ] New and existing tests pass locally.
 - [ ] I have checked my code runs on the latest Soroban SDK.
 
+## Accessibility (a11y) Checklist
+If your changes include new or modified UI components, please verify the following:
+- [ ] **Keyboard Navigation:** All interactive elements can be reached and activated using only the keyboard (`Tab`, `Enter`, `Space`).
+- [ ] **Focus States:** Focus indicators are clearly visible and consistent across components.
+- [ ] **Color Contrast:** Text and background colors meet WCAG 2.1 AA contrast requirements (at least 4.5:1 for normal text).
+- [ ] **ARIA & Semantics:** Proper HTML semantics are used, and `aria-*` attributes are added where necessary for screen readers.
+
 ---
 
 **Thank you for your contribution! 🚀**

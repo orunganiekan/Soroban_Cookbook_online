@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "hello-world",
+    "counter",
+    "token-transfer",
+]
+resolver = "2"

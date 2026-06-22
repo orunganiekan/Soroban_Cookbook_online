@@ -2,6 +2,7 @@ import React, { useState, type ReactNode } from 'react';
 import clsx from 'clsx';
 import BaseCard from './BaseCard';
 import styles from './cards.module.css';
+import { Tag } from '../Badge';
 
 export interface PatternCardProps {
   contractName: string;
@@ -42,7 +43,7 @@ export default function PatternCard({
       <div className={styles.patternHeader}>
         {icon && <span className={styles.patternIcon}>{icon}</span>}
         <span className={styles.patternBadge}>SOROBAN CONTRACT</span>
-        <span className={styles.patternTag}>{tag}</span>
+        <Tag variant="storage" size="sm">{tag}</Tag>
       </div>
 
       {/* Contract name — monospace, feels like code */}

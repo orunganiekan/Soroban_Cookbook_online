@@ -1,0 +1,240 @@
+/**
+ * Badges & Tags — Canonical Global Styles
+ *
+ * Provides .sb-badge and .sb-tag utility classes consumed by:
+ *   - React components (Badge.tsx)
+ *   - MDX docs pages (raw HTML class usage)
+ *   - PatternDoc, PatternCard, and any future components
+ *
+ * All color values come from design-tokens.css via CSS custom properties.
+ * Dark mode is handled automatically via [data-theme='dark'] overrides in
+ * design-tokens.css — no extra selectors needed here.
+ */
+
+/* ── Base: Badge (pill) ──────────────────────────────────────────────────── */
+
+.sb-badge {
+  display: inline-flex;
+  align-items: center;
+  height: var(--sb-badge-height-md);
+  padding-inline: var(--sb-badge-px-md);
+  font-size: var(--sb-badge-font-md);
+  font-weight: var(--sb-badge-font-weight);
+  letter-spacing: var(--sb-badge-letter-spacing);
+  line-height: 1;
+  border-radius: var(--sb-badge-radius);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  user-select: none;
+  vertical-align: middle;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+/* ── Base: Tag (rounded rectangle) ──────────────────────────────────────── */
+
+.sb-tag {
+  display: inline-flex;
+  align-items: center;
+  height: var(--sb-badge-height-md);
+  padding-inline: var(--sb-badge-px-md);
+  font-size: var(--sb-badge-font-md);
+  font-weight: var(--sb-tag-font-weight);
+  line-height: 1;
+  border-radius: var(--sb-tag-radius);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  user-select: none;
+  vertical-align: middle;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+/* ── Size Modifiers ──────────────────────────────────────────────────────── */
+
+.sb-badge--sm,
+.sb-tag--sm {
+  height: var(--sb-badge-height-sm);
+  padding-inline: var(--sb-badge-px-sm);
+  font-size: var(--sb-badge-font-sm);
+}
+
+.sb-badge--md,
+.sb-tag--md {
+  height: var(--sb-badge-height-md);
+  padding-inline: var(--sb-badge-px-md);
+  font-size: var(--sb-badge-font-md);
+}
+
+.sb-badge--lg,
+.sb-tag--lg {
+  height: var(--sb-badge-height-lg);
+  padding-inline: var(--sb-badge-px-lg);
+  font-size: var(--sb-badge-font-lg);
+}
+
+/* ── Difficulty Variants ─────────────────────────────────────────────────── */
+
+.sb-badge--beginner {
+  background-color: var(--sb-badge-beginner-bg);
+  color: var(--sb-badge-beginner-text);
+  border-color: var(--sb-badge-beginner-border);
+}
+
+.sb-badge--intermediate {
+  background-color: var(--sb-badge-intermediate-bg);
+  color: var(--sb-badge-intermediate-text);
+  border-color: var(--sb-badge-intermediate-border);
+}
+
+.sb-badge--advanced {
+  background-color: var(--sb-badge-advanced-bg);
+  color: var(--sb-badge-advanced-text);
+  border-color: var(--sb-badge-advanced-border);
+}
+
+/* ── Status Variants ─────────────────────────────────────────────────────── */
+
+.sb-badge--new {
+  background-color: var(--sb-badge-new-bg);
+  color: var(--sb-badge-new-text);
+  border-color: var(--sb-badge-new-border);
+}
+
+.sb-badge--updated {
+  background-color: var(--sb-badge-updated-bg);
+  color: var(--sb-badge-updated-text);
+  border-color: var(--sb-badge-updated-border);
+}
+
+.sb-badge--coming-soon {
+  background-color: var(--sb-badge-coming-soon-bg);
+  color: var(--sb-badge-coming-soon-text);
+  border-color: var(--sb-badge-coming-soon-border);
+}
+
+.sb-badge--deprecated {
+  background-color: var(--sb-badge-deprecated-bg);
+  color: var(--sb-badge-deprecated-text);
+  border-color: var(--sb-badge-deprecated-border);
+}
+
+.sb-badge--stable {
+  background-color: var(--sb-badge-stable-bg);
+  color: var(--sb-badge-stable-text);
+  border-color: var(--sb-badge-stable-border);
+}
+
+.sb-badge--experimental {
+  background-color: var(--sb-badge-experimental-bg);
+  color: var(--sb-badge-experimental-text);
+  border-color: var(--sb-badge-experimental-border);
+}
+
+.sb-badge--draft {
+  background-color: var(--sb-badge-draft-bg);
+  color: var(--sb-badge-draft-text);
+  border-color: var(--sb-badge-draft-border);
+}
+
+/* ── Category Tag Variants ───────────────────────────────────────────────── */
+
+.sb-tag--token {
+  background-color: var(--sb-tag-token-bg);
+  color: var(--sb-tag-token-text);
+}
+
+.sb-tag--defi {
+  background-color: var(--sb-tag-defi-bg);
+  color: var(--sb-tag-defi-text);
+}
+
+.sb-tag--nft {
+  background-color: var(--sb-tag-nft-bg);
+  color: var(--sb-tag-nft-text);
+}
+
+.sb-tag--security {
+  background-color: var(--sb-tag-security-bg);
+  color: var(--sb-tag-security-text);
+}
+
+.sb-tag--storage {
+  background-color: var(--sb-tag-storage-bg);
+  color: var(--sb-tag-storage-text);
+}
+
+.sb-tag--auth {
+  background-color: var(--sb-tag-auth-bg);
+  color: var(--sb-tag-auth-text);
+}
+
+.sb-tag--governance {
+  background-color: var(--sb-tag-governance-bg);
+  color: var(--sb-tag-governance-text);
+}
+
+.sb-tag--error-handling {
+  background-color: var(--sb-tag-error-handling-bg);
+  color: var(--sb-tag-error-handling-text);
+}
+
+/* ── Interactive (clickable) Modifier ────────────────────────────────────── */
+
+.sb-badge--clickable,
+.sb-tag--clickable {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sb-badge--clickable:hover,
+.sb-tag--clickable:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.95);
+}
+
+.sb-badge--clickable:active,
+.sb-tag--clickable:active {
+  transform: translateY(0);
+  filter: brightness(0.9);
+}
+
+.sb-badge--clickable:focus-visible,
+.sb-tag--clickable:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* ── Badge/Tag Group ─────────────────────────────────────────────────────── */
+
+.sb-badge-group,
+.sb-tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem; /* 6px */
+}
+
+/* ── Responsive: shrink to sm on narrow viewports ────────────────────────── */
+
+@media (max-width: 480px) {
+  .sb-badge,
+  .sb-tag {
+    height: var(--sb-badge-height-sm);
+    padding-inline: var(--sb-badge-px-sm);
+    font-size: var(--sb-badge-font-sm);
+  }
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .sb-badge,
+  .sb-tag {
+    transition: none;
+  }
+}
