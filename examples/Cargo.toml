@@ -3,5 +3,6 @@ members = [
     "hello-world",
     "counter",
     "token-transfer",
+    "simple-dao",
 ]
 resolver = "2"
