@@ -168,6 +168,66 @@ Currently, no environment variables are required for deployment. The workflow us
 - No secrets required for GitHub Pages deployment
 - All code is built from the repository source
 
+## Alert System
+
+Alerting is handled by `.github/workflows/alerts.yml`. The workflow covers three scenarios:
+
+| Trigger | Job | What fires |
+|---|---|---|
+| CI or CD workflow fails on `main` | `notify-failure` | Slack message with workflow name, branch, commit, actor, and run URL |
+| CI or CD workflow recovers on `main` | `notify-recovery` | Slack recovery message |
+| Schedule (every 30 min) | `uptime-check` | HTTP probe against the live site; Slack alert if non-2xx/3xx |
+| Manual `workflow_dispatch` with `test_alert=true` | `test-alert` | Sends a test Slack message to verify the integration |
+
+### Setup
+
+#### 1. Create a Slack Incoming Webhook
+
+1. Go to [api.slack.com/apps](https://api.slack.com/apps) → **Create New App** → **From scratch**.
+2. Name it `Soroban Cookbook Alerts`, pick your workspace.
+3. Under **Features** → **Incoming Webhooks**, toggle **Activate Incoming Webhooks** on.
+4. Click **Add New Webhook to Workspace**, select the target channel (e.g. `#soroban-alerts`), and click **Allow**.
+5. Copy the webhook URL (format: `https://hooks.slack.com/services/…`).
+
+#### 2. Add the secret to GitHub
+
+1. Go to **Settings → Secrets and variables → Actions**.
+2. Click **New repository secret**.
+3. Name: `SLACK_WEBHOOK_URL` — Value: the URL copied above.
+
+#### 3. (Optional) Override the monitored URL
+
+The uptime probe defaults to `https://soroban-cookbook.dev`. To change it without editing the workflow:
+
+1. Go to **Settings → Secrets and variables → Actions → Variables** tab.
+2. Add a variable named `SITE_URL` with the target URL as the value.
+
+#### 4. Verify the integration
+
+1. Go to **Actions** → **Alert System** → **Run workflow**.
+2. Set **test_alert** to `true` and click **Run workflow**.
+3. A test message should appear in your Slack channel within seconds.
+
+### On-Call Rotation
+
+This project is community-maintained. There is no formal PagerDuty rotation. The Slack channel configured above serves as the incident notification channel. Triage follows this process:
+
+1. **Slack alert fires** → anyone with repository access investigates the linked Actions run.
+2. **Build failure** → check the failed job logs; common causes are dependency updates or broken Rust examples.
+3. **Site downtime** → check GitHub Pages status at [githubstatus.com](https://www.githubstatus.com) first. If Pages is healthy, check the last deployment run.
+4. **Escalation** → open a GitHub issue tagged `incident` and post in [Stellar Discord](https://discord.gg/stellardev) `#soroban-dev`.
+
+If you want to set up a formal PagerDuty integration, replace the `slackapi/slack-github-action` steps with calls to the [PagerDuty Events API v2](https://developer.pagerduty.com/api-reference/YXBpOjI3NDgyNjU-pager-duty-v2-events-api) using a `PAGERDUTY_INTEGRATION_KEY` secret.
+
+### Alert Channels Reference
+
+| Channel | Purpose | Configured via |
+|---|---|---|
+| Slack `#soroban-alerts` | CI failures, recoveries, downtime | `SLACK_WEBHOOK_URL` secret |
+| GitHub Actions email | Default GitHub notification for workflow failures | GitHub account notification settings |
+
+---
+
 ## Future Improvements
 
 - [ ] Add build caching to speed up deployments
