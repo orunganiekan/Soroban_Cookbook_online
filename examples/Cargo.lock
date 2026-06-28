@@ -1199,6 +1199,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "simple-voting"
+version = "0.1.0"
+dependencies = [
+ "soroban-sdk",
+]
+
+[[package]]
 name = "slab"
 version = "0.4.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"

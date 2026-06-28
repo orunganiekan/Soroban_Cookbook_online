@@ -486,13 +486,15 @@
   --sb-tag-error-handling-text: #fca5a5;
   --color-text-secondary: var(--color-gray-300);
   --color-text-tertiary: var(--color-gray-500);
-  --color-text-inverse: var(--color-gray-900);
+  /* In dark mode, "inverse" means a light-coloured surface (used for e.g. light-on-dark badges) */
+  --color-text-inverse: #f3f4f6;
 
+  /* Dark surfaces — explicit values so they are unaffected by the inverted gray scale */
   --color-bg-primary: #0a0a0a;
-  --color-bg-secondary: var(--color-gray-900);
-  --color-bg-tertiary: var(--color-gray-800);
+  --color-bg-secondary: #111827;
+  --color-bg-tertiary: #1f2937;
 
-  --color-border-light: var(--color-gray-800);
-  --color-border-medium: var(--color-gray-700);
-  --color-border-strong: var(--color-gray-600);
+  --color-border-light: #1f2937;
+  --color-border-medium: #374151;
+  --color-border-strong: #4b5563;
 }
