@@ -131,9 +131,9 @@ A secure app should keep signing and network credentials on the server. The fron
 #### Node backend example
 
 ```js
-import express from "express";
-import { execFile } from "child_process";
-import { promisify } from "util";
+import express from 'express';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
 
 const execFileAsync = promisify(execFile);
 const app = express();
@@ -145,29 +145,29 @@ function buildArgs(contractId, source, network, fn, params) {
     String(value),
   ]);
   return [
-    "contract",
-    "invoke",
-    "--id",
+    'contract',
+    'invoke',
+    '--id',
     contractId,
-    "--source",
+    '--source',
     source,
-    "--network",
+    '--network',
     network,
-    "--",
+    '--',
     fn,
     ...argPairs,
   ];
 }
 
-app.post("/api/contract/invoke", async (req, res) => {
+app.post('/api/contract/invoke', async (req, res) => {
   try {
     const { contractId, fn, params } = req.body;
     if (!contractId || !fn) {
-      return res.status(400).json({ error: "contractId and fn are required" });
+      return res.status(400).json({ error: 'contractId and fn are required' });
     }
 
-    const args = buildArgs(contractId, "my-testnet-account", "testnet", fn, params);
-    const { stdout, stderr } = await execFileAsync("soroban", args);
+    const args = buildArgs(contractId, 'my-testnet-account', 'testnet', fn, params);
+    const { stdout, stderr } = await execFileAsync('soroban', args);
 
     if (stderr) {
       return res.status(500).json({ error: stderr.trim() });
@@ -180,7 +180,7 @@ app.post("/api/contract/invoke", async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log("Contract API listening on http://localhost:3000");
+  console.log('Contract API listening on http://localhost:3000');
 });
 ```
 
@@ -190,11 +190,11 @@ Keep secret keys out of the browser. The frontend sends simple requests and disp
 
 ```js
 async function invokeContract(fn, params) {
-  const response = await fetch("/api/contract/invoke", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
+  const response = await fetch('/api/contract/invoke', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      contractId: "YOUR_CONTRACT_ID",
+      contractId: 'YOUR_CONTRACT_ID',
       fn,
       params,
     }),
@@ -202,15 +202,15 @@ async function invokeContract(fn, params) {
 
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.error || "Contract invocation failed");
+    throw new Error(error.error || 'Contract invocation failed');
   }
 
   return response.json();
 }
 
 // Example usage in a React component
-const result = await invokeContract("get_count");
-console.log("Current count:", result.result);
+const result = await invokeContract('get_count');
+console.log('Current count:', result.result);
 ```
 
 ### Browser-friendly read-only pattern
@@ -218,12 +218,12 @@ console.log("Current count:", result.result);
 For UI screens, make read-only contract queries from the frontend but still proxy them through a server so secrets remain protected.
 
 ```js
-const response = await fetch("/api/contract/invoke", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
+const response = await fetch('/api/contract/invoke', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
-    contractId: "YOUR_CONTRACT_ID",
-    fn: "get_count",
+    contractId: 'YOUR_CONTRACT_ID',
+    fn: 'get_count',
   }),
 });
 ```
@@ -231,26 +231,32 @@ const response = await fetch("/api/contract/invoke", {
 ## Common error cases and fixes
 
 ### 1. `Account not found`
+
 - Problem: The source account is not configured or funded.
 - Fix: Verify the account exists with `soroban keys list` and fund it on testnet.
 
 ### 2. `Function not found`
+
 - Problem: The function name or argument name does not match contract metadata.
 - Fix: Run `soroban contract inspect --id "$CONTRACT_ID" --network "$NETWORK"` and use the exact function and parameter names.
 
 ### 3. `Argument decoding failed`
+
 - Problem: The CLI could not parse the provided argument type.
 - Fix: Use contract metadata names and provide values in the expected format, for example `--value 42` for integers or `--message "Hello"` for strings.
 
 ### 4. `Insufficient balance` or gas failure
+
 - Problem: Not enough XLM is available for the invocation fee.
 - Fix: Fund the account again using friendbot or transfer additional testnet XLM.
 
 ### 5. Backend invocation errors
+
 - Problem: `child_process` returns stderr or the backend cannot parse CLI output.
 - Fix: Capture both `stdout` and `stderr`, return plain JSON from the backend, and validate request payloads before invoking the CLI.
 
 ### 6. Browser request failure
+
 - Problem: The frontend sees an HTTP error from the backend.
 - Fix: Check network logs, ensure the backend endpoint is reachable, and confirm `Content-Type: application/json` is set on requests.
 

@@ -15,9 +15,11 @@ This guide will help you get started with the contribution process, from setting
 ## 🚀 Getting Started
 
 ### Project Overview
+
 Soroban Cookbook is a comprehensive documentation platform for Stellar smart contract development. We aim to provides interactive guides, patterns, and tutorials that are easy to follow and production-ready.
 
 ### Types of Contributions
+
 We welcome several types of contributions:
 
 - **Documentation:** Improving explanations, fixing typos, or adding new guides.
@@ -32,6 +34,7 @@ We welcome several types of contributions:
 To contribute code or documentation changes, you'll need to set up the project locally.
 
 ### Prerequisites
+
 - **Rust & Soroban CLI:** [Install Rust](https://www.rust-lang.org/tools/install) and the [Soroban CLI](https://developers.stellar.org/docs/smart-contracts/getting-started/setup#install-the-soroban-cli).
 - **Bun:** We use [Bun](https://bun.sh/) as our primary JavaScript runtime and package manager.
 - **Git:** For version control.
@@ -39,12 +42,14 @@ To contribute code or documentation changes, you'll need to set up the project l
 ### Local Development Setup
 
 1. **Fork and Clone**
+
    ```bash
    git clone https://github.com/Soroban-Cookbook/Soroban_Cookbook_online.git
    cd Soroban_Cookbook_online
    ```
 
 2. **Install Dependencies**
+
    ```bash
    cd documentation
    bun install  # (alternative: npm install)
@@ -61,6 +66,7 @@ To contribute code or documentation changes, you'll need to set up the project l
 ## 🌿 Branching & PR Conventions
 
 ### Branch Naming
+
 Keep your branches scoped to a single concern. Use the following naming convention:
 
 - `feat/...` for new features or patterns.
@@ -69,13 +75,17 @@ Keep your branches scoped to a single concern. Use the following naming conventi
 - `chore/...` for maintenance tasks.
 
 ### Commit Messages
+
 We follow a lightweight conventional commit style:
+
 - `feat: add liquidity pool pattern`
 - `fix: correct typo in storage docs`
 - `docs: update contributing guide`
 
 ### Pull Requests
+
 A high-quality PR includes:
+
 - **Clear Title:** Concise summary of the change.
 - **Detailed Description:** What changed and why.
 - **Issue Link:** Reference any related issues (e.g., `Closes #123`).
@@ -86,6 +96,7 @@ A high-quality PR includes:
 ## 📑 Contribution Workflows
 
 ### A. Documentation Contributions
+
 Docs are written in **MDX** and located in `documentation/docs/`.
 
 - **Cross-linking:** Always use relative paths for internal links (e.g., `[Setup](./setup.md)`).
@@ -93,6 +104,7 @@ Docs are written in **MDX** and located in `documentation/docs/`.
 - **Metadata:** Ensure every page has proper frontmatter (title, description).
 
 ### B. Example / Code Contributions
+
 Contract examples should be minimal, focused, and well-documented.
 
 - **Storage:** Use `examples/` for standalone Rust projects (if applicable).
@@ -100,6 +112,7 @@ Contract examples should be minimal, focused, and well-documented.
 - **Best Practices:** Follow [Soroban Best Practices](https://developers.stellar.org/docs/smart-contracts/best-practices/security-checklist).
 
 ### C. Fixes & Improvements
+
 - **Scope:** Keep PRs small. Avoid unrelated refactors in the same PR.
 - **Validation:** Ensure your fix doesn't break existing functionality.
 
@@ -124,6 +137,7 @@ npm run build
 ```
 
 For Rust code examples, ensure they compile and pass tests:
+
 ```bash
 cargo check
 cargo test
@@ -148,18 +162,22 @@ Before you hit "Submit", make sure you've checked these off:
 ## 🔍 Review Expectations
 
 ### What Reviewers Look For
+
 - **Correctness:** Does the code/doc work as intended?
 - **Clarity:** Is the explanation easy to understand for a beginner?
 - **Consistency:** Does it follow the existing patterns and design tokens?
 - **Utility:** Does this add value to the cookbook?
 
 ### Iteration Process
+
 Expect some feedback! We might ask for clarifications or small adjustments. This is part of maintaining high standards for the community.
 
 ---
 
 ## 📞 Getting Help
+
 If you're stuck, feel free to:
+
 - Open a [GitHub Discussion](https://github.com/Soroban-Cookbook/Soroban_Cookbook_online/discussions).
 - Join the [Stellar Dev Discord](https://discord.gg/stellardev) and ask in the `#soroban` channel.
 

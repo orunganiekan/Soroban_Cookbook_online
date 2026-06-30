@@ -68,11 +68,11 @@ When a contract returns an error or panics:
 pub fn atomic_operation(env: Env) -> Result<(), Error> {
     env.storage().set(&key1, &value1);  // This will rollback
     env.storage().set(&key2, &value2);  // This will rollback
-    
+
     if some_condition {
         return Err(Error::Failed);  // All changes above are reverted
     }
-    
+
     Ok(())
 }
 ```
@@ -89,7 +89,7 @@ pub fn transfer(env: Env, amount: i128) -> Result<(), Error> {
     if amount <= 0 {
         return Err(Error::InvalidAmount);
     }
-    
+
     // Then modify state
     env.storage().set(&key, &value);
     Ok(())
@@ -150,9 +150,9 @@ fn test_insufficient_balance() {
     let env = Env::default();
     let contract_id = env.register_contract(None, MyContract);
     let client = MyContractClient::new(&env, &contract_id);
-    
+
     let result = client.try_transfer(&user, &100);
-    
+
     assert_eq!(result, Err(Ok(Error::InsufficientBalance)));
 }
 ```
@@ -174,15 +174,15 @@ pub fn validate(env: Env, amount: i128, user: Address) -> Result<(), Error> {
     if amount <= 0 {
         return Err(Error::InvalidAmount);
     }
-    
+
     if !is_authorized(&env, &user) {
         return Err(Error::Unauthorized);
     }
-    
+
     if get_balance(&env, &user) < amount {
         return Err(Error::InsufficientBalance);
     }
-    
+
     Ok(())
 }
 ```
@@ -209,7 +209,7 @@ pub fn transfer(env: Env, from: Address, to: Address, amount: i128) -> Result<()
         );
         return Err(Error::InvalidAmount);
     }
-    
+
     // Continue with transfer
     Ok(())
 }

@@ -9,13 +9,7 @@ import prettierConfig from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: [
-      'node_modules/',
-      'build/',
-      '.docusaurus/',
-      '*.config.js',
-      '*.config.ts',
-    ],
+    ignores: ['node_modules/', 'build/', '.docusaurus/', '*.config.js', '*.config.ts'],
   },
   {
     files: ['src/**/*.{ts,tsx}'],

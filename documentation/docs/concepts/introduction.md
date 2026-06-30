@@ -137,12 +137,12 @@ Soroban adds programmability to Stellar without compromising its core strengths:
 
 ## Key Differences from Other Platforms
 
-| Feature | Soroban | Ethereum | Others |
-|---------|---------|----------|--------|
-| **Language** | Rust | Solidity | Varies |
-| **Finality** | Sub-second | ~12 seconds | Varies |
-| **Fees** | Very low | Variable/High | Varies |
-| **Focus** | Real-world use | General purpose | Varies |
+| Feature      | Soroban        | Ethereum        | Others |
+| ------------ | -------------- | --------------- | ------ |
+| **Language** | Rust           | Solidity        | Varies |
+| **Finality** | Sub-second     | ~12 seconds     | Varies |
+| **Fees**     | Very low       | Variable/High   | Varies |
+| **Focus**    | Real-world use | General purpose | Varies |
 
 ## Your Learning Path
 

@@ -5,19 +5,21 @@ description: Best practices for modeling, serialization, and evolution of custom
 image: /img/soroban-social-card.png
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import { Callout } from "@site/src/components/Callout";
-import { Alert } from "@site/src/components/Alert";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import { Callout } from '@site/src/components/Callout';
+import { Alert } from '@site/src/components/Alert';
 
 # Designing Robust Custom Types
 
 ## Overview
 
-In Soroban, types are more than just data containers—they define the contract's storage footprint, gas efficiency, and long-term maintainability. This guide covers strategies for designing custom types that are robust, efficient, and evolvable.
+In Soroban, types are more than just data containersï¿½they define the contract's storage footprint, gas efficiency, and long-term maintainability. This guide covers strategies for designing custom types that are robust, efficient, and evolvable.
 
 <Callout variant="info" title="Why Type Design Matters">
-Smart contracts are immutable by nature, but their state persists across upgrades. Poorly designed types can lead to "storage bloat," high gas costs for reads/writes, and complex migrations when business requirements change.
+  Smart contracts are immutable by nature, but their state persists across upgrades. Poorly designed
+  types can lead to "storage bloat," high gas costs for reads/writes, and complex migrations when
+  business requirements change.
 </Callout>
 
 ## Modeling Strategies
@@ -87,7 +89,8 @@ Every byte stored in the ledger costs gas. Serialization size directly impacts t
 4.  **Bit-Packing (Advanced):** For extremely high-frequency operations, consider packing multiple booleans or small integers into a single `u64`.
 
 <Alert variant="warning" title="Read/Write Amplification">
-Reading a 1KB struct to change a single boolean field still costs the gas for a 1KB read. If a struct grows too large, consider splitting it into separate storage keys.
+  Reading a 1KB struct to change a single boolean field still costs the gas for a 1KB read. If a
+  struct grows too large, consider splitting it into separate storage keys.
 </Alert>
 
 ## Common Design Patterns
@@ -107,7 +110,7 @@ pub enum ProposalStatus {
 
 pub fn cast_vote(env: Env, id: u32) -> Result<(), Error> {
     let proposal = get_proposal(&env, id)?;
-    
+
     match proposal.status {
         ProposalStatus::Voting { start_time, end_time } => {
             let now = env.ledger().timestamp();
@@ -222,4 +225,3 @@ pub fn get_account(env: &Env, user: Address) -> AccountV2 {
 - [Storage Concepts](../concepts/storage.md)
 - [Error Handling](../concepts/error-handling.md)
 - [Authorization](../concepts/authorization.md)
-

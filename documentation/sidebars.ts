@@ -16,6 +16,7 @@ const sidebars: SidebarsConfig = {
         'getting-started/first-contract',
         'getting-started/building-and-compilation',
         'getting-started/local-testing-and-simulation',
+        'getting-started/local-testing',
         'getting-started/deploy-testnet',
         'getting-started/deploy-mainnet',
         'getting-started/contract-interaction',
@@ -35,6 +36,8 @@ const sidebars: SidebarsConfig = {
         'concepts/events',
         'concepts/gas-and-resources',
         'concepts/cross-contract-invocation',
+        'concepts/testing-strategies',
+        'concepts/token-standards',
       ],
     },
     {
@@ -53,9 +56,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Security',
-      items: [
-        'security/fundamentals',
-      ],
+      items: ['security/fundamentals'],
     },
     {
       type: 'category',
@@ -70,17 +71,12 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Components',
-      items: [
-        'components/buttons',
-        'components/testimonials',
-      ],
+      items: ['components/buttons', 'components/testimonials'],
     },
     {
       type: 'category',
       label: 'Responsive',
-      items: [
-        'responsive/breakpoints',
-      ],
+      items: ['responsive/breakpoints'],
     },
   ],
 };

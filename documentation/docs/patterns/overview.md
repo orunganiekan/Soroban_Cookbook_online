@@ -43,6 +43,7 @@ Comprehensive error handling patterns including Result types, fallback logic, gr
 - Basic token implementations
 - Token wrappers and vaults
 - Multi-token systems
+- Compare SAC and custom contracts in [Token Standards Overview](../concepts/token-standards.md)
 
 ### 💰 DeFi Patterns
 

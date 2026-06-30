@@ -32,6 +32,7 @@ echo $SOROBAN_RPC_URL
 ```
 
 **Questions to ask**:
+
 - Is the issue consistently reproducible?
 - Does it happen on different machines?
 - What was the last successful state?
@@ -58,6 +59,7 @@ cargo build
 ```
 
 **Debugging techniques**:
+
 - Comment out code sections to find the problematic area
 - Test with simpler inputs
 - Isolate individual contract functions
@@ -80,6 +82,7 @@ cargo build --release
 ```
 
 **Verification steps**:
+
 - Run all relevant tests
 - Check on a clean build
 - Test on different machines/environments if possible
@@ -96,6 +99,7 @@ cargo build --release
 **Problem**: Soroban CLI is not in your system PATH.
 
 **Diagnosis**:
+
 ```bash
 # Check if soroban is installed
 which soroban
@@ -111,22 +115,24 @@ echo $PATH
 **Solutions**:
 
 1. **Install Soroban CLI** (if not installed):
+
    ```bash
    # macOS/Linux
    curl --proto '=https' --tlsv1.2 -sSf https://install.stellar.org/soroban-cli | bash
    source ~/.bashrc  # or ~/.zshrc for zsh
-   
+
    # Windows (with WSL)
    curl --proto '=https' --tlsv1.2 -sSf https://install.stellar.org/soroban-cli | bash
    source ~/.bashrc
    ```
 
 2. **Update PATH** (if already installed):
+
    ```bash
    # Linux/macOS - Add to ~/.bashrc or ~/.zshrc
    export PATH="$HOME/.local/bin:$PATH"
    source ~/.bashrc
-   
+
    # Windows - Add C:\Users\<YOUR_USER>\.local\bin to System PATH
    # Control Panel > System > Environment Variables > Edit PATH
    ```
@@ -142,6 +148,7 @@ echo $PATH
 **Problem**: Rust SDK is not properly installed or version mismatch.
 
 **Diagnosis**:
+
 ```bash
 # Check Rust toolchain
 rustup show
@@ -157,19 +164,21 @@ grep soroban-sdk Cargo.toml
 **Solutions**:
 
 1. **Install WebAssembly target**:
+
    ```bash
    # Add the wasm target for your Rust version
    rustup target add wasm32-unknown-unknown
-   
+
    # Verify
    rustup target list | grep wasm
    ```
 
 2. **Update SDK dependency**:
+
    ```bash
    # Update to latest SDK version
    cargo update soroban-sdk
-   
+
    # Or specify a specific version in Cargo.toml
    soroban-sdk = "20.1"
    ```
@@ -188,6 +197,7 @@ grep soroban-sdk Cargo.toml
 **Solutions**:
 
 **Linux**:
+
 ```bash
 # Ubuntu/Debian
 sudo apt-get update
@@ -201,6 +211,7 @@ gcc --version
 ```
 
 **Windows**:
+
 ```bash
 # Install Visual Studio Build Tools with C++ support
 # Or use Windows Subsystem for Linux (WSL)
@@ -208,6 +219,7 @@ gcc --version
 ```
 
 **macOS**:
+
 ```bash
 # Install Xcode Command Line Tools
 xcode-select --install
@@ -225,6 +237,7 @@ clang --version
 **Problem**: Type mismatch in your contract code.
 
 **Example**:
+
 ```rust
 // ❌ Error: expected i128, found u32
 pub fn transfer(amount: i128) -> Result<(), Error> {
@@ -235,6 +248,7 @@ pub fn transfer(amount: i128) -> Result<(), Error> {
 ```
 
 **Diagnosis**:
+
 ```bash
 # Get detailed error message
 cargo build 2>&1 | head -50
@@ -244,6 +258,7 @@ cargo build --message-format=json | jq '.message'
 ```
 
 **Solution**:
+
 ```rust
 // ✅ Fix: Convert types explicitly
 pub fn transfer(amount: i128) -> Result<(), Error> {
@@ -258,6 +273,7 @@ validate_amount(user_amount as i128)?;
 ```
 
 **Prevention**:
+
 - Enable strict type checking in `Cargo.toml`:
   ```toml
   [profile.dev]
@@ -271,6 +287,7 @@ validate_amount(user_amount as i128)?;
 **Problem**: Moving a value and then trying to use it.
 
 **Example**:
+
 ```rust
 // ❌ Error: value moved here
 let vec = vec![1, 2, 3];
@@ -279,6 +296,7 @@ let len = vec.len();  // ❌ Can't use vec anymore
 ```
 
 **Solution**:
+
 ```rust
 // ✅ Solution 1: Borrow instead of move
 let vec = vec![1, 2, 3];
@@ -296,6 +314,7 @@ let len = vec.len();
 **Problem**: Multiple compilation errors that are hard to parse.
 
 **Diagnosis and solution**:
+
 ```bash
 # Get cleaner error output
 cargo build 2>&1 | grep "error\|help:" | head -20
@@ -323,6 +342,7 @@ cargo update
 **Problem**: Contract executes but returns an error.
 
 **Example**:
+
 ```bash
 $ soroban contract invoke --id <ID> -- transfer --amount 100
 error: ...
@@ -332,6 +352,7 @@ ContractError: InvalidAmount
 **Diagnosis**:
 
 1. **Check error handling**:
+
    ```rust
    // Add detailed error types
    #[derive(Clone, Debug, Eq, PartialEq)]
@@ -343,20 +364,21 @@ ContractError: InvalidAmount
    ```
 
 2. **Add logging to understand the issue**:
+
    ```rust
    pub fn transfer(env: Env, amount: i128) -> Result<(), Error> {
        // Validate inputs
        if amount <= 0 {
            return Err(Error::InvalidAmount);
        }
-       
+
        // Get current balance
        let balance = get_balance(&env)?;
-       
+
        if amount > balance {
            return Err(Error::InsufficientBalance);
        }
-       
+
        Ok(())
    }
    ```
@@ -367,13 +389,14 @@ ContractError: InvalidAmount
    fn test_transfer_with_invalid_amount() {
        let env = Env::default();
        let contract = /* setup contract */;
-       
+
        let result = contract.try_transfer(-100);  // Negative amount
        assert_eq!(result, Err(Ok(Error::InvalidAmount)));
    }
    ```
 
 **Solution**:
+
 - Review contract logic for the failure condition
 - Add specific error handling for each case
 - Test with valid inputs first
@@ -384,6 +407,7 @@ ContractError: InvalidAmount
 **Problem**: Contract call rejected due to authorization checks.
 
 **Common causes**:
+
 ```rust
 // Missing authorization signature
 // Wrong signer
@@ -392,6 +416,7 @@ ContractError: InvalidAmount
 ```
 
 **Diagnosis and solution**:
+
 ```bash
 # Check transaction signatures
 soroban contract invoke \
@@ -403,11 +428,12 @@ soroban contract invoke \
 ```
 
 **Code example**:
+
 ```rust
 pub fn transfer(env: Env, from: Address, to: Address, amount: i128) -> Result<(), Error> {
     // Require authorization from the 'from' address
     from.require_auth();
-    
+
     // Proceed with transfer
     // ...
     Ok(())
@@ -419,12 +445,12 @@ fn test_authorized_transfer() {
     let env = Env::default();
     let from = Address::generate(&env);
     let to = Address::generate(&env);
-    
+
     env.mock_all_auths();  // Mock all auth for testing
-    
+
     let contract = /* setup */;
     let result = contract.try_transfer(&from, &to, &100);
-    
+
     assert!(result.is_ok());
 }
 ```
@@ -434,6 +460,7 @@ fn test_authorized_transfer() {
 **Problem**: Contract can't read/write to storage.
 
 **Common causes**:
+
 ```
 - Storage not initialized
 - Wrong storage key type
@@ -442,6 +469,7 @@ fn test_authorized_transfer() {
 ```
 
 **Example**:
+
 ```rust
 // ❌ Panic if key doesn't exist
 let balance = env.storage().get(&user_key).unwrap();
@@ -453,11 +481,12 @@ let balance = env.storage()
 ```
 
 **Debugging**:
+
 ```rust
 // Add diagnostic logging
 pub fn get_balance(env: &Env, user: &Address) -> Result<i128, Error> {
     let key = user;
-    
+
     match env.storage().get(key) {
         Some(balance) => {
             // Key exists
@@ -475,13 +504,13 @@ pub fn get_balance(env: &Env, user: &Address) -> Result<i128, Error> {
 fn test_storage_operations() {
     let env = Env::default();
     let key = Symbol::new(&env, "balance");
-    
+
     // Initially empty
     assert_eq!(env.storage().get(&key), None);
-    
+
     // Set value
     env.storage().set(&key, &100_i128);
-    
+
     // Now it exists
     assert_eq!(env.storage().get(&key), Some(100));
 }
@@ -496,6 +525,7 @@ fn test_storage_operations() {
 **Problem**: Unexpected panic in test, not a clear assertion failure.
 
 **Diagnosis**:
+
 ```bash
 # Run with backtrace for more details
 RUST_BACKTRACE=1 cargo test
@@ -508,6 +538,7 @@ cargo test 2>&1 | grep "panicked\|thread\|message"
 ```
 
 **Solution**:
+
 ```rust
 // ❌ Bad: Can panic
 let balance = env.storage().get(&key).unwrap();
@@ -530,37 +561,39 @@ fn get_balance(key: &Symbol) -> Result<i128, Error> {
 **Problem**: Test assertion doesn't match expected value.
 
 **Example**:
+
 ```rust
 // ❌ Assertion failed
 #[test]
 fn test_transfer() {
     let env = Env::default();
     // ... setup ...
-    
+
     contract.transfer(&amount);
     assert_eq!(get_balance(&env), 100);  // Expected 100, got 50
 }
 ```
 
 **Diagnosis and solution**:
+
 ```rust
 // ✅ Add debugging output
 #[test]
 fn test_transfer() {
     let env = Env::default();
     // ... setup ...
-    
+
     let initial = get_balance(&env);
     println!("Initial balance: {}", initial);
-    
+
     contract.transfer(&amount);
-    
+
     let final_balance = get_balance(&env);
     println!("Final balance: {}", final_balance);
-    
+
     // Use more descriptive assertions
     assert_eq!(
-        final_balance, 
+        final_balance,
         initial - amount,
         "Balance should decrease by transfer amount"
     );
@@ -664,13 +697,13 @@ fn test_error_handling() {
 #[test]
 fn test_contract_state() {
     let env = Env::default();
-    
+
     // Assert state at each step
     assert_eq!(get_balance(&env), 0, "Initial balance should be 0");
-    
+
     contract.deposit(100);
     assert_eq!(get_balance(&env), 100, "After deposit, balance should be 100");
-    
+
     contract.withdraw(30);
     assert_eq!(get_balance(&env), 70, "After withdraw, balance should be 70");
 }
@@ -694,16 +727,16 @@ pub fn transfer(env: Env, from: Address, to: Address, amount: i128) -> Result<()
 
 ## Troubleshooting Quick Reference
 
-| Issue | Quick Check | Common Fix |
-|-------|------------|-----------|
-| `soroban: command not found` | `which soroban` | Update PATH or reinstall |
-| `linker 'cc' not found` | `gcc --version` | Install build tools (`build-essential`, etc.) |
-| Type mismatch | Check variable types at assignment | Convert types with `as` or change type |
-| Value moved | Look for missing `&` (borrow) | Add `&` or `.clone()` |
-| Test panics | Run with `RUST_BACKTRACE=1` | Replace `.unwrap()` with `.unwrap_or()` |
-| Auth failed | Check signer address | Add `env.mock_all_auths()` in tests |
-| Storage error | Check if key is initialized | Use `.unwrap_or()` for default values |
-| Build hangs | Check for infinite loops or network | `Ctrl+C` and check `Cargo.lock` |
+| Issue                        | Quick Check                         | Common Fix                                    |
+| ---------------------------- | ----------------------------------- | --------------------------------------------- |
+| `soroban: command not found` | `which soroban`                     | Update PATH or reinstall                      |
+| `linker 'cc' not found`      | `gcc --version`                     | Install build tools (`build-essential`, etc.) |
+| Type mismatch                | Check variable types at assignment  | Convert types with `as` or change type        |
+| Value moved                  | Look for missing `&` (borrow)       | Add `&` or `.clone()`                         |
+| Test panics                  | Run with `RUST_BACKTRACE=1`         | Replace `.unwrap()` with `.unwrap_or()`       |
+| Auth failed                  | Check signer address                | Add `env.mock_all_auths()` in tests           |
+| Storage error                | Check if key is initialized         | Use `.unwrap_or()` for default values         |
+| Build hangs                  | Check for infinite loops or network | `Ctrl+C` and check `Cargo.lock`               |
 
 ---
 
@@ -712,6 +745,7 @@ pub fn transfer(env: Env, from: Address, to: Address, amount: i128) -> Result<()
 ### ✅ Best Practices
 
 1. **Use type-safe error handling**:
+
    ```rust
    // Good: Result-based
    fn operation() -> Result<T, Error> {
@@ -721,6 +755,7 @@ pub fn transfer(env: Env, from: Address, to: Address, amount: i128) -> Result<()
    ```
 
 2. **Validate early, fail fast**:
+
    ```rust
    pub fn transfer(amount: i128) -> Result<(), Error> {
        // Validate first, before state changes
@@ -733,6 +768,7 @@ pub fn transfer(env: Env, from: Address, to: Address, amount: i128) -> Result<()
    ```
 
 3. **Test error paths systematically**:
+
    ```rust
    #[test]
    fn test_all_error_conditions() {

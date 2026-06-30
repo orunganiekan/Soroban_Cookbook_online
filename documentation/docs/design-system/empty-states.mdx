@@ -16,12 +16,12 @@ Empty states appear when there's no content to display — a search returns noth
 
 Every empty state is built from four optional slots:
 
-| Slot | Required | Purpose |
-|------|----------|---------|
-| `icon` | No | Visual anchor — emoji or SVG |
-| `title` | Yes | Short, plain-language heading |
-| `body` | No | One sentence explaining the situation and what to do |
-| `actions` | No | One or two CTAs — primary action first |
+| Slot      | Required | Purpose                                              |
+| --------- | -------- | ---------------------------------------------------- |
+| `icon`    | No       | Visual anchor — emoji or SVG                         |
+| `title`   | Yes      | Short, plain-language heading                        |
+| `body`    | No       | One sentence explaining the situation and what to do |
+| `actions` | No       | One or two CTAs — primary action first               |
 
 ---
 
@@ -79,7 +79,10 @@ Three sizes to match the surrounding context.
   title="No patterns available"
   body="This category doesn't have any patterns yet. Check back soon or contribute one."
   actions={[
-    { label: 'Contribute a pattern', href: 'https://github.com/Soroban-Cookbook/Soroban-Cookbook-/blob/main/CONTRIBUTING.md' },
+    {
+      label: 'Contribute a pattern',
+      href: 'https://github.com/Soroban-Cookbook/Soroban-Cookbook-/blob/main/CONTRIBUTING.md',
+    },
     { label: 'Browse all patterns', variant: 'secondary', href: '/docs/patterns/overview' },
   ]}
 />
@@ -105,8 +108,8 @@ Use when a search query returns zero matches.
 
 <EmptyState
   icon="🔍"
-  title="No results for &quot;timelock&quot;"
-  body="Double-check your spelling, or try broader terms like &quot;escrow&quot; or &quot;token&quot;."
+  title='No results for "timelock"'
+  body='Double-check your spelling, or try broader terms like "escrow" or "token".'
   actions={[
     { label: 'Browse all patterns', href: '/docs/patterns/overview' },
     { label: 'Clear search', variant: 'secondary', href: '#' },
@@ -115,17 +118,19 @@ Use when a search query returns zero matches.
 
 ```tsx
 // Typically rendered inside your search results component
-{results.length === 0 && (
-  <EmptyState
-    icon="🔍"
-    title={`No results for "${query}"`}
-    body="Double-check your spelling, or try broader terms like &quot;escrow&quot; or &quot;token&quot;."
-    actions={[
-      { label: 'Browse all patterns', href: '/docs/patterns/overview' },
-      { label: 'Clear search', variant: 'secondary', onClick: clearSearch },
-    ]}
-  />
-)}
+{
+  results.length === 0 && (
+    <EmptyState
+      icon="🔍"
+      title={`No results for "${query}"`}
+      body='Double-check your spelling, or try broader terms like "escrow" or "token".'
+      actions={[
+        { label: 'Browse all patterns', href: '/docs/patterns/overview' },
+        { label: 'Clear search', variant: 'secondary', onClick: clearSearch },
+      ]}
+    />
+  );
+}
 ```
 
 ---
@@ -139,23 +144,28 @@ Use when a pattern category exists but has no entries yet.
   title="No DeFi patterns yet"
   body="We're working on it. In the meantime, explore token standards or contribute a pattern."
   actions={[
-    { label: 'Contribute a pattern', href: 'https://github.com/Soroban-Cookbook/Soroban-Cookbook-/blob/main/CONTRIBUTING.md' },
+    {
+      label: 'Contribute a pattern',
+      href: 'https://github.com/Soroban-Cookbook/Soroban-Cookbook-/blob/main/CONTRIBUTING.md',
+    },
     { label: 'View token patterns', variant: 'secondary', href: '/docs/patterns/overview' },
   ]}
 />
 
 ```tsx
-{patterns.length === 0 && (
-  <EmptyState
-    icon="🧩"
-    title={`No ${category} patterns yet`}
-    body="We're working on it. In the meantime, explore token standards or contribute a pattern."
-    actions={[
-      { label: 'Contribute a pattern', href: '/contributing' },
-      { label: 'View token patterns', variant: 'secondary', href: '/docs/patterns/overview' },
-    ]}
-  />
-)}
+{
+  patterns.length === 0 && (
+    <EmptyState
+      icon="🧩"
+      title={`No ${category} patterns yet`}
+      body="We're working on it. In the meantime, explore token standards or contribute a pattern."
+      actions={[
+        { label: 'Contribute a pattern', href: '/contributing' },
+        { label: 'View token patterns', variant: 'secondary', href: '/docs/patterns/overview' },
+      ]}
+    />
+  );
+}
 ```
 
 ---
@@ -164,11 +174,11 @@ Use when a pattern category exists but has no entries yet.
 
 **Title** — state the situation plainly. Avoid "Oops" or "Uh oh".
 
-| ✅ Do | ❌ Don't |
-|-------|---------|
-| "No results found" | "Oops! Nothing here." |
-| "No DeFi patterns yet" | "This section is empty." |
-| "Nothing matches your search" | "Error: no data." |
+| ✅ Do                         | ❌ Don't                 |
+| ----------------------------- | ------------------------ |
+| "No results found"            | "Oops! Nothing here."    |
+| "No DeFi patterns yet"        | "This section is empty." |
+| "Nothing matches your search" | "Error: no data."        |
 
 **Body** — one sentence. Explain why and what to do next.
 
@@ -178,23 +188,23 @@ Use when a pattern category exists but has no entries yet.
 
 ## Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `title` | `string` | — | Required. Short heading. |
-| `icon` | `ReactNode` | — | Emoji, SVG, or component. |
-| `body` | `ReactNode` | — | Supporting copy. |
-| `actions` | `EmptyStateAction[]` | `[]` | CTA buttons. |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant. |
-| `className` | `string` | — | Extra CSS class. |
+| Prop        | Type                   | Default | Description               |
+| ----------- | ---------------------- | ------- | ------------------------- |
+| `title`     | `string`               | —       | Required. Short heading.  |
+| `icon`      | `ReactNode`            | —       | Emoji, SVG, or component. |
+| `body`      | `ReactNode`            | —       | Supporting copy.          |
+| `actions`   | `EmptyStateAction[]`   | `[]`    | CTA buttons.              |
+| `size`      | `'sm' \| 'md' \| 'lg'` | `'md'`  | Size variant.             |
+| `className` | `string`               | —       | Extra CSS class.          |
 
 ### EmptyStateAction
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | — | Button text. |
-| `href` | `string` | — | Link target (renders `<a>`). |
-| `onClick` | `() => void` | — | Click handler (renders `<button>`). |
-| `variant` | `'primary' \| 'secondary' \| 'ghost'` | First=`primary`, rest=`secondary` | Visual style. |
+| Prop      | Type                                  | Default                           | Description                         |
+| --------- | ------------------------------------- | --------------------------------- | ----------------------------------- |
+| `label`   | `string`                              | —                                 | Button text.                        |
+| `href`    | `string`                              | —                                 | Link target (renders `<a>`).        |
+| `onClick` | `() => void`                          | —                                 | Click handler (renders `<button>`). |
+| `variant` | `'primary' \| 'secondary' \| 'ghost'` | First=`primary`, rest=`secondary` | Visual style.                       |
 
 ---
 

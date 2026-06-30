@@ -1,9 +1,6 @@
 import type { Page } from '@playwright/test';
 
-const IGNORED_CONSOLE_PATTERNS = [
-  /favicon\.ico/i,
-  /Failed to load resource.*404/i,
-];
+const IGNORED_CONSOLE_PATTERNS = [/favicon\.ico/i, /Failed to load resource.*404/i];
 
 export interface ConsoleGuard {
   errors: string[];

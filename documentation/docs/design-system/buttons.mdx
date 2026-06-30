@@ -18,13 +18,13 @@ import { Button } from '@site/src/components/buttons';
 
 Five visual variants, each with a clear purpose.
 
-| Variant | Use case | Light bg | Dark bg |
-|---------|----------|----------|---------|
-| **primary** | Main CTA — deploy, submit, confirm | `#2e8555` | `#25c2a0` |
-| **secondary** | Secondary actions — cancel, back | Outlined `#2e8555` | Outlined `#25c2a0` |
-| **tertiary** | Low-emphasis actions — filters, toggles | `#f3f4f6` | `#374151` |
-| **ghost** | Minimal chrome — nav items, inline actions | Transparent | Transparent |
-| **danger** | Destructive — delete, revoke, reset | `#ef4444` | `#f87171` |
+| Variant       | Use case                                   | Light bg           | Dark bg            |
+| ------------- | ------------------------------------------ | ------------------ | ------------------ |
+| **primary**   | Main CTA — deploy, submit, confirm         | `#2e8555`          | `#25c2a0`          |
+| **secondary** | Secondary actions — cancel, back           | Outlined `#2e8555` | Outlined `#25c2a0` |
+| **tertiary**  | Low-emphasis actions — filters, toggles    | `#f3f4f6`          | `#374151`          |
+| **ghost**     | Minimal chrome — nav items, inline actions | Transparent        | Transparent        |
+| **danger**    | Destructive — delete, revoke, reset        | `#ef4444`          | `#f87171`          |
 
 ```tsx
 <Button variant="primary">Deploy</Button>
@@ -47,11 +47,11 @@ Five visual variants, each with a clear purpose.
 
 Three sizes. Pick based on context, not preference.
 
-| Size | Height | Padding | Font | Use case |
-|------|--------|---------|------|----------|
-| `small` | 32px | 8px 12px | 13px | Tables, dense UI, inline actions |
-| `medium` | 40px | 10px 18px | 14px | Default for most flows |
-| `large` | 48px | 12px 24px | 16px | Hero CTAs, form submits, standalone actions |
+| Size     | Height | Padding   | Font | Use case                                    |
+| -------- | ------ | --------- | ---- | ------------------------------------------- |
+| `small`  | 32px   | 8px 12px  | 13px | Tables, dense UI, inline actions            |
+| `medium` | 40px   | 10px 18px | 14px | Default for most flows                      |
+| `large`  | 48px   | 12px 24px | 16px | Hero CTAs, form submits, standalone actions |
 
 ```tsx
 <Button size="small">Small</Button>
@@ -69,14 +69,14 @@ Touch targets must be at least 44x44px (WCAG 2.1 AA). `small` buttons are fine f
 
 Every variant supports all six states.
 
-| State | Behavior | CSS |
-|-------|----------|-----|
-| **Default** | Idle appearance | Base tokens |
-| **Hover** | Slightly darker/lighter background | `:hover:not(:disabled)` |
-| **Active** | Pressed — `scale(0.98)` | `:active:not(:disabled)` |
-| **Focus** | Keyboard focus ring (3px) | `:focus-visible` |
-| **Disabled** | 50% opacity, `cursor: not-allowed` | `:disabled` |
-| **Loading** | Spinner replaces content, `cursor: wait` | `loading` prop |
+| State        | Behavior                                 | CSS                      |
+| ------------ | ---------------------------------------- | ------------------------ |
+| **Default**  | Idle appearance                          | Base tokens              |
+| **Hover**    | Slightly darker/lighter background       | `:hover:not(:disabled)`  |
+| **Active**   | Pressed — `scale(0.98)`                  | `:active:not(:disabled)` |
+| **Focus**    | Keyboard focus ring (3px)                | `:focus-visible`         |
+| **Disabled** | 50% opacity, `cursor: not-allowed`       | `:disabled`              |
+| **Loading**  | Spinner replaces content, `cursor: wait` | `loading` prop           |
 
 ```tsx
 <Button disabled>Disabled</Button>
@@ -112,11 +112,11 @@ Always provide `aria-label` for screen readers.
 
 Icon-only buttons are square (`aspect-ratio: 1`) and sized to match the button height.
 
-| Size | Icon button dimensions |
-|------|-----------------------|
-| `small` | 32x32px |
-| `medium` | 40x40px |
-| `large` | 48x48px |
+| Size     | Icon button dimensions |
+| -------- | ---------------------- |
+| `small`  | 32x32px                |
+| `medium` | 40x40px                |
+| `large`  | 48x48px                |
 
 ---
 
@@ -133,7 +133,7 @@ import { ButtonGroup } from '@site/src/components/buttons';
   <Button variant="secondary">Preview</Button>
   <Button variant="secondary">Draft</Button>
   <Button variant="primary">Publish</Button>
-</ButtonGroup>
+</ButtonGroup>;
 ```
 
 Buttons share borders — first child gets left radius, last gets right radius, middle buttons have none.
@@ -141,9 +141,7 @@ Buttons share borders — first child gets left radius, last gets right radius, 
 ### Connected group
 
 ```tsx
-<ButtonGroup connected>
-  ...
-</ButtonGroup>
+<ButtonGroup connected>...</ButtonGroup>
 ```
 
 Overlapping borders (`margin-right: -2px`) for a tighter, toolbar look.
@@ -151,9 +149,7 @@ Overlapping borders (`margin-right: -2px`) for a tighter, toolbar look.
 ### Segmented group
 
 ```tsx
-<ButtonGroup segmented>
-  ...
-</ButtonGroup>
+<ButtonGroup segmented>...</ButtonGroup>
 ```
 
 Pill-shaped container with rounded inner buttons — use for view toggles (grid/list, light/dark).
@@ -174,15 +170,15 @@ Stretches to 100% of parent. Use for mobile forms or single-action modals.
 
 All variant tokens automatically swap via `[data-theme='dark']`. No extra props needed.
 
-| Token | Light | Dark |
-|-------|-------|------|
-| `--btn-primary-bg` | `#2e8555` | `#25c2a0` |
-| `--btn-primary-bg-hover` | `#29784c` | `#21af90` |
-| `--btn-secondary-text` | `#2e8555` | `#25c2a0` |
-| `--btn-tertiary-bg` | `#f3f4f6` | `#374151` |
-| `--btn-ghost-bg-hover` | `rgba(0,0,0,0.05)` | `rgba(255,255,255,0.08)` |
-| `--btn-danger-bg` | `#ef4444` | `#f87171` |
-| `--btn-danger-text` | `#ffffff` | `#1f2937` |
+| Token                    | Light              | Dark                     |
+| ------------------------ | ------------------ | ------------------------ |
+| `--btn-primary-bg`       | `#2e8555`          | `#25c2a0`                |
+| `--btn-primary-bg-hover` | `#29784c`          | `#21af90`                |
+| `--btn-secondary-text`   | `#2e8555`          | `#25c2a0`                |
+| `--btn-tertiary-bg`      | `#f3f4f6`          | `#374151`                |
+| `--btn-ghost-bg-hover`   | `rgba(0,0,0,0.05)` | `rgba(255,255,255,0.08)` |
+| `--btn-danger-bg`        | `#ef4444`          | `#f87171`                |
+| `--btn-danger-text`      | `#ffffff`          | `#1f2937`                |
 
 Dark mode primary and danger buttons get a subtle `box-shadow` glow for depth.
 
@@ -198,12 +194,12 @@ Dark mode primary and danger buttons get a subtle `box-shadow` glow for depth.
 
 ### ARIA
 
-| Attribute | When | Purpose |
-|-----------|------|---------|
-| `aria-busy="true"` | Loading state | Announces loading to screen readers |
-| `aria-disabled="true"` | Disabled or loading | Semantic disabled state |
-| `aria-label` | Icon-only buttons | Required — provides accessible name |
-| `role="group"` | Button groups | Groups related buttons |
+| Attribute              | When                | Purpose                             |
+| ---------------------- | ------------------- | ----------------------------------- |
+| `aria-busy="true"`     | Loading state       | Announces loading to screen readers |
+| `aria-disabled="true"` | Disabled or loading | Semantic disabled state             |
+| `aria-label`           | Icon-only buttons   | Required — provides accessible name |
+| `role="group"`         | Button groups       | Groups related buttons              |
 
 ### High contrast mode
 
@@ -234,9 +230,15 @@ Where `{variant}` is `primary`, `secondary`, `tertiary`, `ghost`, or `danger`.
 ### Sizing tokens
 
 ```css
---btn-height-sm: 32px;    --btn-padding-sm: 8px 12px;   --btn-font-sm: 13px;
---btn-height-md: 40px;    --btn-padding-md: 10px 18px;   --btn-font-md: 14px;
---btn-height-lg: 48px;    --btn-padding-lg: 12px 24px;   --btn-font-lg: 16px;
+--btn-height-sm: 32px;
+--btn-padding-sm: 8px 12px;
+--btn-font-sm: 13px;
+--btn-height-md: 40px;
+--btn-padding-md: 10px 18px;
+--btn-font-md: 14px;
+--btn-height-lg: 48px;
+--btn-padding-lg: 12px 24px;
+--btn-font-lg: 16px;
 ```
 
 ### Shared tokens

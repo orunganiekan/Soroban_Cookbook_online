@@ -215,16 +215,16 @@ Functions:
 
 If your contract is larger than expected, try these techniques in order:
 
-| Technique | How |
-|---|---|
-| `opt-level = "z"` | Set in `[profile.release]` |
-| `lto = true` | Set in `[profile.release]` |
-| `codegen-units = 1` | Set in `[profile.release]` |
-| `strip = "symbols"` | Set in `[profile.release]` |
-| `panic = "abort"` | Removes formatting from panics |
-| Remove unused dependencies | Audit `Cargo.toml` with `cargo tree` |
-| Minimise `std` / use `#![no_std]` | Reduces runtime overhead |
-| Run `stellar contract optimize` | Applies wasm-opt passes |
+| Technique                         | How                                  |
+| --------------------------------- | ------------------------------------ |
+| `opt-level = "z"`                 | Set in `[profile.release]`           |
+| `lto = true`                      | Set in `[profile.release]`           |
+| `codegen-units = 1`               | Set in `[profile.release]`           |
+| `strip = "symbols"`               | Set in `[profile.release]`           |
+| `panic = "abort"`                 | Removes formatting from panics       |
+| Remove unused dependencies        | Audit `Cargo.toml` with `cargo tree` |
+| Minimise `std` / use `#![no_std]` | Reduces runtime overhead             |
+| Run `stellar contract optimize`   | Applies wasm-opt passes              |
 
 ## Common build errors and remediation
 

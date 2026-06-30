@@ -1,5 +1,5 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
@@ -144,7 +144,8 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/docs',
-          editUrl: 'https://github.com/Soroban-Cookbook/Soroban_Cookbook_online/tree/main/documentation/',
+          editUrl:
+            'https://github.com/Soroban-Cookbook/Soroban_Cookbook_online/tree/main/documentation/',
         },
         blog: false,
         theme: {
@@ -155,7 +156,7 @@ const config: Config = {
             './src/css/badges-tags.css',
             './src/css/custom.css',
             './src/css/search-experience.css',
-          ]
+          ],
         },
       } satisfies Preset.Options,
     ],

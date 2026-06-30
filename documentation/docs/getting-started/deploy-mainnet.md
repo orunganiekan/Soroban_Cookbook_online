@@ -210,14 +210,14 @@ Deployment is not the end of your responsibilities — it is the beginning. A co
 
 ### What to monitor
 
-| Signal | Why it matters |
-|---|---|
-| Transaction volume per function | Sudden spikes may indicate an exploit attempt or bot activity |
-| Failed transaction rate | Rising errors can signal unexpected inputs or state corruption |
-| Contract balance / token holdings | Unexplained outflows require immediate investigation |
-| Event emissions | Missing or unexpected events reveal logic anomalies |
-| Admin actions | Any unauthorized admin call is a critical incident |
-| Storage growth | Unbounded growth leads to eventual DoS via fee escalation |
+| Signal                            | Why it matters                                                 |
+| --------------------------------- | -------------------------------------------------------------- |
+| Transaction volume per function   | Sudden spikes may indicate an exploit attempt or bot activity  |
+| Failed transaction rate           | Rising errors can signal unexpected inputs or state corruption |
+| Contract balance / token holdings | Unexplained outflows require immediate investigation           |
+| Event emissions                   | Missing or unexpected events reveal logic anomalies            |
+| Admin actions                     | Any unauthorized admin call is a critical incident             |
+| Storage growth                    | Unbounded growth leads to eventual DoS via fee escalation      |
 
 ### How to monitor
 
@@ -270,6 +270,7 @@ stellar contract invoke \
 ```
 
 If your contract does not implement pause, your options are limited to:
+
 - Revoking allowances / approvals at the token level
 - Communicating the issue publicly so users stop interacting
 - Deploying a migration path if the contract is upgradeable
@@ -308,31 +309,31 @@ stellar contract invoke \
 
 ## Mainnet vs testnet: key differences
 
-| Aspect | Testnet | Mainnet |
-|---|---|---|
-| XLM value | Free (Friendbot) | Real monetary value |
-| Reset risk | Network resets periodically | Permanent — no resets |
-| Contract ID persistence | May be lost after reset | Permanent |
-| Fee urgency | Low | Can spike during congestion |
-| Explorer | testnet.stellar.expert | stellar.expert |
-| RPC endpoint | soroban-testnet.stellar.org | Provider-specific |
-| Error cost | Low (no real value) | High (may be irreversible) |
+| Aspect                  | Testnet                     | Mainnet                     |
+| ----------------------- | --------------------------- | --------------------------- |
+| XLM value               | Free (Friendbot)            | Real monetary value         |
+| Reset risk              | Network resets periodically | Permanent — no resets       |
+| Contract ID persistence | May be lost after reset     | Permanent                   |
+| Fee urgency             | Low                         | Can spike during congestion |
+| Explorer                | testnet.stellar.expert      | stellar.expert              |
+| RPC endpoint            | soroban-testnet.stellar.org | Provider-specific           |
+| Error cost              | Low (no real value)         | High (may be irreversible)  |
 
 ---
 
 ## Security controls summary
 
-| Control | Requirement |
-|---|---|
-| Testnet validation | Mandatory — all functions tested |
-| Security review | Mandatory — at least one peer reviewer |
-| `cargo audit` | Mandatory — no high-severity findings |
-| Admin key storage | Hardware wallet or multi-sig |
-| Deployer key lifecycle | Create → deploy → initialize → retire |
-| Artifact hash recorded | Mandatory — recorded before deploy |
-| Post-deploy verification | Mandatory — inspect + read-only call |
-| Monitoring in place | Mandatory — before going live |
-| Incident response plan | Documented before going live |
+| Control                  | Requirement                            |
+| ------------------------ | -------------------------------------- |
+| Testnet validation       | Mandatory — all functions tested       |
+| Security review          | Mandatory — at least one peer reviewer |
+| `cargo audit`            | Mandatory — no high-severity findings  |
+| Admin key storage        | Hardware wallet or multi-sig           |
+| Deployer key lifecycle   | Create → deploy → initialize → retire  |
+| Artifact hash recorded   | Mandatory — recorded before deploy     |
+| Post-deploy verification | Mandatory — inspect + read-only call   |
+| Monitoring in place      | Mandatory — before going live          |
+| Incident response plan   | Documented before going live           |
 
 ---
 
@@ -341,6 +342,7 @@ stellar contract invoke \
 Copy this checklist into your release notes for every mainnet deployment.
 
 ### Pre-deploy
+
 - [ ] `cargo test` passes
 - [ ] `cargo audit` passes
 - [ ] Security review completed and sign-off obtained
@@ -350,6 +352,7 @@ Copy this checklist into your release notes for every mainnet deployment.
 - [ ] Admin address is a hardware wallet or multi-sig
 
 ### Deploy
+
 - [ ] `--sim-only` simulation passes
 - [ ] Contract deployed and Contract ID recorded in at least two places
 - [ ] Initialization call succeeded
@@ -358,6 +361,7 @@ Copy this checklist into your release notes for every mainnet deployment.
 - [ ] On-chain verification via inspector and block explorer
 
 ### Post-deploy
+
 - [ ] Monitoring active (transactions, balances, events, admin actions)
 - [ ] Alerts configured for anomalies
 - [ ] Incident response plan communicated to team

@@ -159,6 +159,7 @@ match oracle.try_price(&asset) {
 ```
 
 Use `try_*` when:
+
 - The callee is external and you cannot guarantee it is always available.
 - You want to implement a fallback (e.g. secondary oracle).
 - The callee's error is recoverable in your business logic.
@@ -209,14 +210,14 @@ Use `sub_invocations` in `require_auth_for_args` to bound what operations a call
 
 ## Security considerations
 
-| Risk | Mitigation |
-|---|---|
-| Callee can drain caller's funds via reentrancy | Finish all storage writes before calling external contracts |
-| Attacker substitutes malicious callee address | Guard address-update functions with `require_auth`; validate the callee interface |
-| Budget exhaustion from deep call chains | Profile budget usage; cap recursion depth |
-| Panicking callee aborts your transaction | Use `try_*` methods for non-critical external calls |
-| Dynamic invocations bypass type safety | Prefer typed clients; treat dynamic calls as untrusted data |
-| Callee upgrade changes behaviour | Subscribe to upgrade events or pin a specific contract hash |
+| Risk                                           | Mitigation                                                                        |
+| ---------------------------------------------- | --------------------------------------------------------------------------------- |
+| Callee can drain caller's funds via reentrancy | Finish all storage writes before calling external contracts                       |
+| Attacker substitutes malicious callee address  | Guard address-update functions with `require_auth`; validate the callee interface |
+| Budget exhaustion from deep call chains        | Profile budget usage; cap recursion depth                                         |
+| Panicking callee aborts your transaction       | Use `try_*` methods for non-critical external calls                               |
+| Dynamic invocations bypass type safety         | Prefer typed clients; treat dynamic calls as untrusted data                       |
+| Callee upgrade changes behaviour               | Subscribe to upgrade events or pin a specific contract hash                       |
 
 ## Testing cross-contract calls
 

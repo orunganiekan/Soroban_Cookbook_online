@@ -31,7 +31,7 @@ export default function Example() {
 
 ## Variants
 
-<div style={{display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem'}}>
+<div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
   <Button variant="primary">Primary</Button>
   <Button variant="secondary">Secondary</Button>
   <Button variant="tertiary">Tertiary</Button>
@@ -41,7 +41,14 @@ export default function Example() {
 
 ## Sizes
 
-<div style={{display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap', marginBottom: '1rem'}}>
+<div
+  style={{
+    display: 'flex',
+    gap: '0.75rem',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    marginBottom: '1rem',
+  }}>
   <Button size="sm">Small</Button>
   <Button size="md">Medium</Button>
   <Button size="lg">Large</Button>
@@ -50,7 +57,7 @@ export default function Example() {
 
 ## States
 
-<div style={{display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem'}}>
+<div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
   <Button>Default</Button>
   <Button disabled>Disabled</Button>
   <Button loading>Loading</Button>
@@ -60,7 +67,7 @@ Use keyboard `Tab` navigation to verify visible focus states (`:focus-visible`).
 
 ## Icons
 
-<div style={{display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem'}}>
+<div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
   <Button iconLeft={<span aria-hidden="true">+</span>}>Create</Button>
   <Button iconRight={<span aria-hidden="true">→</span>}>Continue</Button>
   <Button iconOnly aria-label="Settings" iconLeft={<span aria-hidden="true">⚙</span>} />
