@@ -6,6 +6,7 @@ members = [
     "examples/hello-world",
     "examples/basics/01-hello-world",
     "examples/basics/06-validation-patterns",
+    "examples/basics/15-compressed-storage",
     "examples/intermediate/multi-sig-patterns",
     "examples/advanced/01-multi-party-auth",
     "examples/advanced/02-timelock",

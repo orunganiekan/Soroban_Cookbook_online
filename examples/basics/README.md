@@ -22,6 +22,7 @@ Core Soroban fundamentals, one concept per example. Perfect for beginners.
 | 12 | [data-types](./12-data-types/) | Full type system reference |
 | 13 | [collection-types](./13-collection-types/) | Vec and Map patterns |
 | 14 | [event-filtering](./14-event-filtering/) | Indexer-friendly topic design |
+| 15 | [compressed-storage](./15-compressed-storage/) | RLE compression before storage; raw vs compressed size comparison |
 
 ## Quick Start
 
