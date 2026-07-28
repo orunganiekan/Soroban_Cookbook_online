@@ -7,6 +7,7 @@ members = [
     "examples/basics/01-hello-world",
     "examples/basics/06-validation-patterns",
     "examples/intermediate/multi-sig-patterns",
+    "examples/intermediate/storage-pagination",
     "examples/advanced/01-multi-party-auth",
     "examples/advanced/02-timelock",
     "examples/advanced/05-diamond-security",

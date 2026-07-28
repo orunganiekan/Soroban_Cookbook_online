@@ -1,29 +1,75 @@
 # Storage Pagination
 
-Cursor-based pagination for large on-chain collections, enabling scalable reads without exceeding instruction limits.
+Cursor-based pagination over a large, append-only on-chain collection, enabling
+scalable reads that never exceed Soroban's per-call instruction/size limits.
 
-## What It Demonstrates
+## Per-item storage (why this scales)
 
-- Cursor-based pagination pattern (more gas-efficient than offset-based)
-- Stable cursor encoding using indices
-- Page boundaries and consistent ordering
-- Batch retrieval with configurable page size
-- No instruction limit exceeded scenarios
-- Empty page and edge case handling
+Each item is stored under its **own** persistent key (`DataKey::Item(index)`), and a
+single `DataKey::NextIndex` counter tracks the collection size. A page read loads only
+the `page_size` entries it returns — it never deserializes the whole collection. This
+is the key difference from a naive "store everything in one `Vec`" design, where every
+read grows with the collection and eventually blows the instruction budget.
 
-## Use Cases
+## Cursor-based pagination
 
-- Paginating large collections of tokens, users, or items
-- Providing efficient batch data retrieval
-- Supporting frontend pagination UI without loading all items
-- Working with collections that exceed single-transaction limits
+`list(page_size, cursor)` returns a `Page { items, next_cursor }`:
 
-## Key Concepts
+- Pass `cursor = None` to fetch the first page.
+- Feed the returned `next_cursor` back into the next `list` call.
+- Stop when `next_cursor` is `None` (last page reached).
 
-The contract stores items sequentially and uses index-based cursors:
-- **Cursor**: Base64-encoded index pointing to the next item to fetch
-- **Page Size**: Maximum items returned per call (prevents exceeding gas limits)
-- **Stable Cursors**: Cursors remain valid across contract executions
-- **Empty Cursor**: `None` or empty string indicates end of collection
+### Opaque cursor
 
-This pattern avoids the inefficiency of offset-based pagination (which requires skipping items) and provides stable, resumable cursors.
+The cursor is an **opaque** `Bytes` token — callers should treat it as a black box and
+only pass back values produced by the contract. It is **not** Base64; it is a fixed
+8-byte binary payload:
+
+```
+[ magic/version : u32 big-endian ][ item index : u32 big-endian ]
+```
+
+The magic/version marker lets the contract reject foreign or corrupted cursors and
+evolve the format later. Encoding is deterministic: the same index always encodes to
+the same bytes (`encode_cursor_for_index` exposes this for clients that resume from a
+known position).
+
+## Page-size limits
+
+- `page_size` must be greater than zero.
+- Requests larger than `MAX_PAGE_SIZE` (50) are transparently capped to 50, so one call
+  can never fan out into an unbounded read.
+
+## Error handling (no panics on bad input)
+
+`list` returns a `Result<Page, PaginationError>`:
+
+- `PaginationError::InvalidPageSize` — `page_size` was zero.
+- `PaginationError::InvalidCursor` — the cursor was malformed (wrong length or magic) or
+  pointed strictly beyond the end of the collection.
+
+A cursor pointing **exactly** at the end of the collection is valid and returns an empty
+final page with `next_cursor = None`. `get_item(index)` is a direct accessor and panics
+on an out-of-range index, matching the example's accessor convention.
+
+## API
+
+| Function | Description |
+| --- | --- |
+| `add_item(item)` | Append an item, assigning the next index. |
+| `list(page_size, cursor)` | Return one `Page`; `Result<Page, PaginationError>`. |
+| `count()` | Total number of items. |
+| `get_item(index)` | Direct lookup by absolute index (panics if absent). |
+| `encode_cursor_for_index(index)` | Build the opaque cursor for a known index. |
+
+## Build
+
+```bash
+cargo build --target wasm32v1-none --release -p storage-pagination
+```
+
+## Test
+
+```bash
+cargo test -p storage-pagination
+```
