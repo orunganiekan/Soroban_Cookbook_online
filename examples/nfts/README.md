@@ -14,6 +14,9 @@ All examples are production-quality, fully tested, and emit structured events. T
 | 02 | [nft-metadata](./02-nft-metadata/) | On-chain metadata struct, `token_uri` fallback, IPFS-friendly | Beginner |
 | 03 | [nft-metadata-standards](./03-nft-metadata-standards/) | JSON-schema-compliant metadata, typed attribute system, URI validation | Intermediate |
 | 04 | [nft-marketplace](./04-nft-marketplace/) | Fixed-price listings, English auctions, bundles, royalties, trade history | Advanced |
+| 05 | [dynamic-nft-level-up](./05-dynamic-nft-level-up/) | On-chain XP/level progression driven by the owner | Intermediate |
+| 06 | [dynamic-nft-weather](./06-dynamic-nft-weather/) | Oracle-pushed weather changes appearance tags | Intermediate |
+| 07 | [dynamic-nft-time](./07-dynamic-nft-time/) | Life stage derived from ledger timestamp | Intermediate |
 
 ---
 
