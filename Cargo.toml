@@ -15,6 +15,9 @@ members = [
     "examples/tokens/06-token-wrapper",
     "examples/tokens/03-optimized-operations",
     "examples/governance/01-vote-delegation",
+    "examples/nfts/05-dynamic-nft-level-up",
+    "examples/nfts/06-dynamic-nft-weather",
+    "examples/nfts/07-dynamic-nft-time",
     "tests/integration",
     "tests/security",
 ]
