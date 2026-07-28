@@ -1,119 +1,171 @@
 //! # Storage Pagination Contract
 //!
-//! This contract demonstrates cursor-based pagination for efficiently
-//! retrieving large on-chain collections without exceeding instruction limits.
+//! Cursor-based pagination over a large on-chain collection. Each item is stored
+//! under its own persistent key so a page read only loads `page_size` entries
+//! instead of deserializing the full collection.
 
 #![no_std]
 
-use soroban_sdk::{contract, contractimpl, Env, Vec, Symbol};
+use soroban_sdk::{
+    contract, contracterror, contractimpl, contracttype, Bytes, Env, Symbol, Vec,
+};
 
-const ITEMS_KEY: u32 = 0;
+/// Maximum items returned per `list` call (clients may request less).
+pub const MAX_PAGE_SIZE: u32 = 50;
+
+const CURSOR_MAGIC: u32 = 0x5047_0001; // "PG" + version 1
+const CURSOR_LEN: u32 = 8;
+
+#[contracttype]
+#[derive(Clone)]
+pub enum DataKey {
+    NextIndex,
+    Item(u32),
+}
+
+#[contracttype]
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct Page {
+    pub items: Vec<Symbol>,
+    /// Opaque cursor for the next page (`None` when there is no next page).
+    pub next_cursor: Option<Bytes>,
+}
+
+#[contracterror]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord)]
+#[repr(u32)]
+pub enum PaginationError {
+    InvalidPageSize = 1,
+    InvalidCursor = 2,
+}
 
 #[contract]
 pub struct PaginationContract;
 
-/// Result of a pagination query
-#[derive(Clone)]
-pub struct Page {
-    /// Items in this page
-    pub items: Vec<Symbol>,
-    /// Cursor for the next page (empty if no more pages)
-    pub next_cursor: Option<u32>,
-}
-
 #[contractimpl]
 impl PaginationContract {
-    /// Add an item to the collection.
-    ///
-    /// # Arguments
-    /// * `env` - the execution environment
-    /// * `item` - the Symbol item to add
+    /// Append an item to the collection.
     pub fn add_item(env: Env, item: Symbol) {
-        let mut items: Vec<Symbol> = env
-            .storage()
+        let index = read_next_index(&env);
+        env.storage()
             .persistent()
-            .get(&ITEMS_KEY)
-            .unwrap_or(Vec::new(&env));
-
-        items.push_back(item);
-        env.storage().persistent().set(&ITEMS_KEY, &items);
+            .set(&DataKey::Item(index), &item);
+        env.storage()
+            .instance()
+            .set(&DataKey::NextIndex, &(index + 1));
     }
 
-    /// Get a page of items starting from a cursor.
+    /// Return one page of items.
     ///
-    /// # Arguments
-    /// * `env` - the execution environment
-    /// * `cursor` - Starting index (0 for first page, or from previous next_cursor)
-    /// * `page_size` - Maximum items to return (suggested: 10-50)
-    ///
-    /// # Returns
-    /// A Page containing items and the cursor for the next page
-    /// (next_cursor is None if this is the last page)
-    pub fn list(env: Env, cursor: u32, page_size: u32) -> (Vec<Symbol>, Option<u32>) {
-        let items: Vec<Symbol> = env
-            .storage()
-            .persistent()
-            .get(&ITEMS_KEY)
-            .unwrap_or(Vec::new(&env));
-
+    /// * `page_size` — bounded by [`MAX_PAGE_SIZE`]; must be greater than zero.
+    /// * `cursor` — opaque token from a previous `Page::next_cursor`, or `None` for the first page.
+    pub fn list(
+        env: Env,
+        page_size: u32,
+        cursor: Option<Bytes>,
+    ) -> Result<Page, PaginationError> {
         if page_size == 0 {
-            panic!("Page size must be greater than 0");
+            return Err(PaginationError::InvalidPageSize);
         }
 
-        let start = cursor as usize;
-        let page_size_usize = page_size as usize;
-        let end = (start + page_size_usize).min(items.len() as usize);
+        let limit = page_size.min(MAX_PAGE_SIZE);
+        let total = read_next_index(&env);
 
-        let mut page_items = Vec::new(&env);
-        for i in start..end {
-            if let Some(item) = items.get(i as u32) {
-                page_items.push_back(item);
-            }
-        }
-
-        let next_cursor = if end < items.len() as usize {
-            Some(end as u32)
-        } else {
-            None
+        let start = match cursor {
+            None => 0,
+            Some(token) => decode_cursor(&token)?,
         };
 
-        (page_items, next_cursor)
+        if start > total {
+            return Err(PaginationError::InvalidCursor);
+        }
+
+        if start >= total {
+            return Ok(Page {
+                items: Vec::new(&env),
+                next_cursor: None,
+            });
+        }
+
+        let end = start.saturating_add(limit).min(total);
+        let mut page_items = Vec::new(&env);
+        let mut index = start;
+        while index < end {
+            if let Some(item) = env.storage().persistent().get(&DataKey::Item(index)) {
+                page_items.push_back(item);
+            }
+            index += 1;
+        }
+
+        let next_cursor = if end >= total {
+            None
+        } else {
+            Some(encode_cursor(&env, end))
+        };
+
+        Ok(Page {
+            items: page_items,
+            next_cursor,
+        })
     }
 
-    /// Get the total number of items in the collection.
-    ///
-    /// # Returns
-    /// The total item count
+    /// Total number of items stored.
     pub fn count(env: Env) -> u32 {
-        let items: Vec<Symbol> = env
-            .storage()
-            .persistent()
-            .get(&ITEMS_KEY)
-            .unwrap_or(Vec::new(&env));
-
-        items.len() as u32
+        read_next_index(&env)
     }
 
-    /// Get an item by index.
-    ///
-    /// # Arguments
-    /// * `env` - the execution environment
-    /// * `index` - The index of the item
-    ///
-    /// # Returns
-    /// The item at the given index
-    ///
-    /// # Panics
-    /// Panics if index is out of bounds
+    /// Fetch a single item by absolute index.
     pub fn get_item(env: Env, index: u32) -> Symbol {
-        let items: Vec<Symbol> = env
-            .storage()
+        env.storage()
             .persistent()
-            .get(&ITEMS_KEY)
-            .unwrap_or(Vec::new(&env));
-
-        items
-            .get(index)
+            .get(&DataKey::Item(index))
             .unwrap_or_else(|| panic!("Index out of bounds"))
     }
+
+    /// Encode an absolute index as the opaque cursor returned by `list`.
+    pub fn encode_cursor_for_index(env: Env, index: u32) -> Bytes {
+        encode_cursor(&env, index)
+    }
 }
+
+fn read_next_index(env: &Env) -> u32 {
+    env.storage()
+        .instance()
+        .get(&DataKey::NextIndex)
+        .unwrap_or(0)
+}
+
+/// Stable cursor payload: `[magic: u32 BE][index: u32 BE]` (8 bytes).
+fn encode_cursor(env: &Env, index: u32) -> Bytes {
+    let mut bytes = Bytes::new(env);
+    bytes.extend_from_slice(&CURSOR_MAGIC.to_be_bytes());
+    bytes.extend_from_slice(&index.to_be_bytes());
+    bytes
+}
+
+fn decode_cursor(cursor: &Bytes) -> Result<u32, PaginationError> {
+    if cursor.len() != CURSOR_LEN {
+        return Err(PaginationError::InvalidCursor);
+    }
+
+    let magic = u32::from_be_bytes([
+        cursor.get(0).unwrap(),
+        cursor.get(1).unwrap(),
+        cursor.get(2).unwrap(),
+        cursor.get(3).unwrap(),
+    ]);
+    if magic != CURSOR_MAGIC {
+        return Err(PaginationError::InvalidCursor);
+    }
+
+    let index = u32::from_be_bytes([
+        cursor.get(4).unwrap(),
+        cursor.get(5).unwrap(),
+        cursor.get(6).unwrap(),
+        cursor.get(7).unwrap(),
+    ]);
+    Ok(index)
+}
+
+#[cfg(test)]
+mod test;

@@ -17,6 +17,7 @@ This category contains examples that demonstrate common, real-world design patte
 - [`03-pause-unpause`](./03-pause-unpause/) — Emergency pause/unpause mechanism
 - [`storage-migration`](./storage-migration/) — Versioned storage upgrades with explicit staging and batch execution.
 - [`event-history`](./event-history/) — On-chain audit history storage with cursor-based pagination, filtering, and capacity management.
+- [`storage-pagination`](./storage-pagination/) — Cursor-based pagination over large append-only collections with bounded page reads.
 
 ## 📋 Prerequisites
 
